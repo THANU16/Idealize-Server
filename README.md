@@ -1,2 +1,0 @@
-# Idealize-Server
-Backend only
