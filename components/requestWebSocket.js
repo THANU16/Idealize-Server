@@ -192,21 +192,26 @@ function handleWebSocketConnections(server) {
             error: null,
             result: result,
           });
-          ambulanceConnection.get(driverID).send(
-            JSON.stringify({
-              requestData: requestData,
-              identify: "hospitalReq",
-            })
-          );
-          console.log("message sending to ambulance");
-
-          clientConnection.get(userID).send(
-            JSON.stringify({
-              requestData: requestData,
-              identify: "aceeptReq",
-            })
-          );
-          console.log("message sending to client");
+          const ambulanceSocket = ambulanceConnection.get(driverID);
+          if (ambulanceSocket) {
+            ambulanceSocket.send(
+              JSON.stringify({
+                requestData: requestData,
+                identify: "hospitalReq",
+              })
+            );
+            console.log("message sending to ambulance");
+          }
+          const clientSocket = clientConnection.get(userID);
+          if (clientSocket) {
+            clientSocket.send(
+              JSON.stringify({
+                requestData: requestData,
+                identify: "acceptReq",
+              })
+            );
+            console.log("message sending to client");
+          }
         }
       }
     );
@@ -245,13 +250,24 @@ function handleWebSocketConnections(server) {
             error: null,
             result: result,
           });
-          clientConnection.get(userID).send(
-            JSON.stringify({
-              requestData: requestData,
-              identify: "aceeptReq",
-            })
-          );
-          console.log("message sending to client");
+          const clientSocket = clientConnection.get(userID);
+          if (clientSocket) {
+            clientSocket.send(
+              JSON.stringify({
+                requestData: requestData,
+                identify: "acceptReq",
+              })
+            );
+            console.log("message sending to client");
+          }
+
+          // clientConnection.get(userID).send(
+          //   JSON.stringify({
+          //     requestData: requestData,
+          //     identify: "aceeptReq",
+          //   })
+          // );
+
         }
       }
     );
